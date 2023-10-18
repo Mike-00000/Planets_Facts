@@ -1,26 +1,32 @@
 import express from 'express';
+import { Pool } from 'pg';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
-
-const data = require('./data.json');
-
-app.get('/api/planets', (req, res) => {
-    res.json(data);
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
+app.get('/api/planets', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM planets'); // Adaptez cette requête à la structure réelle de votre table
+        const data = result.rows;
+        client.release();
+        res.json(data);
+    } catch (err) {
+        console.error(err);
+        res.send("Error fetching data");
+    }
+});
 
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
-});
-
-
-const { Pool } = require('pg');
-
-const pool = new Pool({
-    connectionString: 'postgres://czszlxsb:SlC6QED2yrd3iMvVnNicyACszb-8KmJH@flora.db.elephantsql.com/czszlxsb',
-    ssl: {
-        rejectUnauthorized: false
-    }
 });
