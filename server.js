@@ -1,10 +1,12 @@
 import express from 'express';
-import { Pool } from 'pg';
+// import { Pool } from 'pg';
+import pkg from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const app = express();
+const { Pool } = pkg;
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -16,7 +18,7 @@ const pool = new Pool({
 app.get('/api/planets', async (req, res) => {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM planets'); // Adaptez cette requête à la structure réelle de votre table
+        const result = await client.query('SELECT * FROM planets');
         const data = result.rows;
         client.release();
         res.json(data);
