@@ -28,6 +28,26 @@ app.get('/api/planets', async (req, res) => {
     }
 });
 
+app.get('/api/planets/:planetName', async (req, res) => {
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM planets WHERE LOWER(name) = LOWER($1)', [req.params.planetName]);
+        const planet = result.rows[0];
+
+        if (!planet) {
+            res.status(404).send("Planet not found");
+            return;
+        }
+
+        client.release();
+        res.json(planet);
+    } catch (err) {
+        console.error("Error:", err.message);
+        res.status(500).send("Error fetching data");
+    }
+});
+
+
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
