@@ -15,6 +15,7 @@ const pool = new Pool({
     }
 });
 
+
 app.get('/api/planets', async (req, res) => {
     try {
         const client = await pool.connect();
@@ -27,6 +28,7 @@ app.get('/api/planets', async (req, res) => {
         res.send("Error fetching data");
     }
 });
+
 
 app.get('/api/planets/:planetName', async (req, res) => {
     try {
@@ -46,6 +48,7 @@ app.get('/api/planets/:planetName', async (req, res) => {
         res.status(500).send("Error fetching data");
     }
 });
+
 
 const PORT = 3001;
 app.listen(PORT, () => {
