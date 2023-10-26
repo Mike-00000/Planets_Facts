@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const path = require("path");
+
 const app = express();
 const { Pool } = pkg;
 
@@ -53,4 +55,12 @@ app.get('/api/planets/:planetName', async (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
+});
+
+
+
+app.use(express.static(path.join(__dirname, "planets-fact-frontend/build")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./planets-fact-frontend/build", "index.html"));
 });
