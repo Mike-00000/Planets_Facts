@@ -1,2 +1,30 @@
-node_modules/
+/node_modules
+
+package_lock.json
 .env
+
+
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/planets-fact-frontend/node_modules
+/planets-fact-frontend/.pnp
+/planets-fact-frontend/.pnp.js
+
+# testing
+/planets-fact-frontend/coverage
+
+# production
+/planets-fact-frontend/build
+
+# misc
+/planets-fact-frontend/.DS_Store
+/planets-fact-frontend/.env.local
+/planets-fact-frontend/.env.development.local
+/planets-fact-frontend/.env.test.local
+/planets-fact-frontend/.env.production.local
+
+/planets-fact-frontend/npm-debug.log*
+/planets-fact-frontend/yarn-debug.log*
+/planets-fact-frontend/yarn-error.log*
